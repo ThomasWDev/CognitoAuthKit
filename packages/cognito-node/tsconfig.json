@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "ES2017", // Target ECMAScript version
+    "module": "ESNext", // Use ES modules
+    "moduleResolution": "node",
+    "esModuleInterop": true, // For default imports from CommonJS modules
+    "forceConsistentCasingInFileNames": true,
+    "strict": true, // Enable strict type checking
+    "skipLibCheck": true,
+    "outDir": "./dist", // Output directory for compiled code
+    "sourceMap": true // Generate source maps
+  },
+  "include": ["lib/**/*.ts"], // Include all TypeScript files in the src directory
+  "exclude": ["node_modules", "dist"] // Exclude node_modules and dist directories
+}
