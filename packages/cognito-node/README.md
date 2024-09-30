@@ -1,5 +1,5 @@
 
-# Cognito Node.js Package - `@thomas/cognito-node`
+# Cognito Node.js Package - `@tomwoodfin/cognito-node`
 
 A comprehensive Node.js package for managing AWS Cognito user authentication, sign-up, sign-in, MFA, password management, and more, built on AWS SDK v3 and Express.js.
 
@@ -19,13 +19,13 @@ A comprehensive Node.js package for managing AWS Cognito user authentication, si
 To get started with this package, first, install it via npm:
 
 ```bash
-npm install @thomas/cognito-node
+npm install @tomwoodfin/cognito-node
 ```
 
 Or using yarn:
 
 ```bash
-yarn add @thomas/cognito-node
+yarn add @tomwoodfin/cognito-node
 ```
 
 ## Prerequisites
@@ -45,7 +45,7 @@ Create an Express.js application and integrate the `CognitoRouter` from the pack
 
 ```javascript
 const express = require('express');
-const { CognitoRouter } = require('@thomas/cognito-node');
+const { CognitoRouter } = require('@tomwoodfin/cognito-node');
 const app = express();
 
 app.use(express.json());
@@ -82,8 +82,8 @@ If you don't want to hardcode the AWS region, client ID, and user pool ID, you c
 
 ```bash
 AWS_REGION=us-east-2
-COGNITO_CLIENT_ID=3p1ht9ht3qlbhcsd7ikbp4tjtb
-COGNITO_USER_POOL_ID=us-east-2_7YMhqa1rp
+COGNITO_CLIENT_ID=
+COGNITO_USER_POOL_ID=
 ```
 
 Use `dotenv` to load these variables:
