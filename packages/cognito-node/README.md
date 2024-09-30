@@ -264,7 +264,3 @@ You can customize the following parameters when setting up `CognitoRouter`:
 
 This project is licensed under the MIT License.
 
-### Support
-
-For any issues or feature requests, feel free to [open an issue](https://github.com/tareq0065/cognito-auth/issues) on GitHub.
-
