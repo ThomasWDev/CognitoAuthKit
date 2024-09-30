@@ -11,13 +11,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@thomas/cognito-node": "*",
+    "@tomwoodfin/cognito-node": "*",
     "body-parser": "^1.20.3",
     "express": "^4.21.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.7",
     "typescript": "^5.6.2"
-  },
-  "gitHead": "42a04ceb59dbac3228170ecc0f457e4a50fc7f23"
+  }
 }
