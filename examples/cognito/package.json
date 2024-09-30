@@ -1,6 +1,6 @@
 {
   "name": "cognito",
-  "version": "1.1.7",
+  "version": "1.1.8",
   "description": "",
   "main": "server.js",
   "scripts": {
@@ -11,7 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@tomwoodfin/cognito-node": "^1.1.7",
+    "@tomwoodfin/cognito-node": "^1.1.8",
     "body-parser": "^1.20.3",
     "express": "^4.21.0"
   },
