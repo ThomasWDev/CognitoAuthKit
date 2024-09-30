@@ -3,7 +3,7 @@
 
 A comprehensive Node.js package for managing AWS Cognito user authentication, sign-up, sign-in, MFA, password management, and more, built on AWS SDK v3 and Express.js.
 
-## Features of this package
+## Features of this package:
 
 - User Sign-Up & Sign-In
 - Email OTP Verification
