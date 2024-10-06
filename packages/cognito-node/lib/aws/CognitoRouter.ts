@@ -8,11 +8,11 @@ export interface CognitoParams {
   userPoolID: string;
   mfaLabel?: string;
   mfaIssuer?: string;
-  router: Router;
+  router?: Router; // Optional router parameter
 }
 
 export class CognitoRouter {
-  public router;
+  public router: Router;
   private cognitoService: CognitoService;
   private cognitoController: CognitoController;
   private cognitoUserPoolID: string;
@@ -34,7 +34,9 @@ export class CognitoRouter {
     );
     this.cognitoController = new CognitoController(this.cognitoService);
     this.cognitoUserPoolID = userPoolID;
-    this.router = router;
+
+    // Initialize router if not provided
+    this.router = router || Router(); // Default to a new Router instance if not provided
 
     this.initializeRoutes();
   }
