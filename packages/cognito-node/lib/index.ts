@@ -1,4 +1,6 @@
 //Export all packages
-export * from './aws/CognitoService';
-export * from './aws/CognitoController';
-export * from './aws/CognitoRouter';
+import { CognitoService } from './aws/CognitoService';
+import { CognitoController } from './aws/CognitoController';
+import { CognitoRouter } from './aws/CognitoRouter';
+
+export { CognitoService, CognitoController, CognitoRouter };
