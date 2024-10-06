@@ -12,7 +12,7 @@ export interface CognitoParams {
 }
 
 export class CognitoRouter {
-  public router: Router;
+  public router;
   private cognitoService: CognitoService;
   private cognitoController: CognitoController;
   private cognitoUserPoolID: string;
@@ -25,7 +25,6 @@ export class CognitoRouter {
     mfaIssuer,
     router,
   }: CognitoParams) {
-    this.router = Router();
     this.cognitoService = new CognitoService(
       region,
       clientId,
