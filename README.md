@@ -18,4 +18,4 @@ A comprehensive Node.js package for managing AWS Cognito user authentication, si
 
 To get started with this package, go to the packages specific docs:
 
-### [Cognito Node](https://github.com/ThomasFigma/cognito-node/blob/main/packages/cognito-node/README.md)
+### [Cognito Node](https://github.com/ThomasWDev/CognitoAuthKit/blob/main/packages/cognito-node/README.md)

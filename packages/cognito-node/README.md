@@ -1,5 +1,5 @@
 
-# Cognito Node.js Package - `@tomwoodfin/cognito-node`
+# Cognito Node.js Package - `@thomaswoodfindev/cognitoauthkit`
 
 A comprehensive Node.js package for managing AWS Cognito user authentication, sign-up, sign-in, MFA, password management, and more, built on AWS SDK v3 and Express.js.
 
@@ -19,13 +19,13 @@ A comprehensive Node.js package for managing AWS Cognito user authentication, si
 To get started with this package, first, install it via npm:
 
 ```bash
-npm install @tomwoodfin/cognito-node
+npm install @thomaswoodfindev/cognitoauthkit
 ```
 
 Or using yarn:
 
 ```bash
-yarn add @tomwoodfin/cognito-node
+yarn add @thomaswoodfindev/cognitoauthkit
 ```
 
 ## Prerequisites
@@ -45,7 +45,7 @@ Create an Express.js application and integrate the `CognitoRouter` from the pack
 
 ```javascript
 const express = require('express');
-const { CognitoRouter } = require('@tomwoodfin/cognito-node');
+const { CognitoRouter } = require('@thomaswoodfindev/cognitoauthkit');
 const app = express();
 
 app.use(express.json());
