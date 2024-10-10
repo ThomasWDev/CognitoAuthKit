@@ -1,8 +1,8 @@
 {
-  "name": "@tomwoodfin/cognito-node",
-  "version": "1.2.5",
+  "name": "@thomaswoodfindev/cognitoauthkit",
+  "version": "0.1.0",
   "description": "cognito-node created by Thomas Woodfin",
-  "author": "Thomas Woodfin <thomaswoodfinfigma@gmail.com>",
+  "author": "Thomas Woodfin <thomaswdev@gmail.com>",
   "homepage": "",
   "license": "MIT",
   "main": "dist/bundle.js",
@@ -33,6 +33,5 @@
     "@types/qrcode": "^1.5.5",
     "rollup": "^4.22.4",
     "typescript": "^5.6.2"
-  },
-  "gitHead": "49c4e5eda180d9189c83ce8cd56d0b9d9723f732"
+  }
 }
