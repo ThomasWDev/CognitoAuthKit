@@ -260,6 +260,73 @@ You can customize the following parameters when setting up `CognitoRouter`:
 - **User Pool ID**: The Cognito User Pool ID.
 - **MFA Label & Issuer**: Customize the TOTP label and issuer that appear in the user's authenticator app.
 
+If you want a custom setup to use this package with your own route, try following:
+```javascript
+const cognitoServiceInit = new CognitoService(
+  '', //region
+  '', // cognito client id
+  '', // cofnito user pool id
+  'NodeCognito', // MFA URL label
+  'NodeCognito', // MFA issuer name
+);
+
+app.use('/users/login', async (req, res) => {
+  const { email, password } = req.body;
+  const cognitoResults = await cognitoServiceInit.signIn(email, password);
+
+  console.log('cognitoResults:', cognitoResults);
+  res.status(200).send({
+    message: 'User login.',
+    cognitoResults,
+  });
+});
+```
+
+You can disable specific routes by the following example:
+
+1. Allow all routes: (by default)
+```javascript
+const cognitoRouter = new CognitoRouter({
+  region: '', //region
+  clientId: '', // cognito client id
+  userPoolID: '', // cofnito user pool id
+  router: theRouter, // Express Router instance
+  disabledRoutes: {}, // No routes are disabled
+});
+
+app.use('/auth', cognitoRouter.router);
+```
+2. Disable specific routes
+```javascript
+const cognitoRouter = new CognitoRouter({
+  region: '', //region
+  clientId: '', // cognito client id
+  userPoolID: '', // cofnito user pool id
+  router: theRouter, // Express Router instance
+  disabledRoutes: {
+    signup: true, // Disable the signup route
+    'enable-mfa': true, // Disable the enable-mfa route
+  },
+});
+
+app.use('/auth', cognitoRouter.router);
+```
+Here are the default routes list:
+
+1. /signup - Default sign up route
+2. /signin - Default sign in route
+3. /confirm-signup - Default confirm sign up route
+4. /refresh-token - Default refresh token route
+5. /resend-otp - Default resend email otp route
+6. /associate-totp - Default associate auth app route
+7. /verify-totp - Default 2fa(auth apps like Google authenticator, Microsoft authenticator, etc.) code verification route
+8. /enable-mfa - Default route for enabling MFA for authenticated users
+9. /disable-mfa - Default route for disabling MFA for authenticated users
+10. /verify-mfa - Default route for verifying MFA for authenticated users
+11. /change-password - Default change password route
+12. /forgot-password - Default forgot password otp route
+13. /confirm-forgot-password - Default forgot password route
+
 ### License
 
 This project is licensed under the MIT License.

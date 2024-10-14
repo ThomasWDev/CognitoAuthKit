@@ -4,3 +4,5 @@ node_modules/
 yarn.lock
 
 .env
+
+packages/cognito-node/dist/bundle.js*
