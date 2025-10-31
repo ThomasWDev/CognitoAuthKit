@@ -17,6 +17,7 @@ import {
 export class CognitoService {
   private client: CognitoIdentityProviderClient;
   private clientId: string;
+  private secretHash: string;
   private cognitoUserPoolID: string;
   public cognitoMFALabel: string;
   public cognitoMFAIssuer: string;
@@ -24,12 +25,14 @@ export class CognitoService {
   constructor(
     region: string,
     clientId: string,
+    secretHash: string,
     cognitoUserPoolID: string,
     cognitoMFALabel: string | 'NodeCognito',
     cognitoMFAIssuer: string | 'AWS',
   ) {
     this.client = new CognitoIdentityProviderClient({ region });
     this.clientId = clientId;
+    this.secretHash = secretHash;
     this.cognitoUserPoolID = cognitoUserPoolID;
     this.cognitoMFALabel = cognitoMFALabel;
     this.cognitoMFAIssuer = cognitoMFAIssuer;
@@ -41,7 +44,7 @@ export class CognitoService {
    * @param password
    */
   async signUp(email: string, password: string) {
-    const params = {
+    const params: any = {
       ClientId: this.clientId,
       Username: email,
       Password: password,
@@ -52,6 +55,9 @@ export class CognitoService {
         },
       ],
     };
+    if (this.secretHash) {
+      params.SecretHash = this.secretHash;
+    }
 
     const command = new SignUpCommand(params);
 
@@ -69,20 +75,19 @@ export class CognitoService {
    * @param password
    */
   async signIn(email: string, password: string) {
-    const params: {
-      AuthParameters: { PASSWORD: string; USERNAME: string };
-      AuthFlow: string;
-      ClientId: string;
-    } = {
+    const params: any = {
       AuthFlow: 'USER_PASSWORD_AUTH',
       ClientId: this.clientId,
       AuthParameters: {
         USERNAME: email,
         PASSWORD: password,
       },
-    };
+    }; 
 
-    // @ts-ignore
+    if (this.secretHash) {
+      params.AuthParameters.SECRET_HASH = this.secretHash;
+    }
+
     const command = new InitiateAuthCommand(params);
 
     try {
@@ -99,11 +104,15 @@ export class CognitoService {
    * @param confirmationCode
    */
   async confirmSignUp(email: string, confirmationCode: string) {
-    const params = {
+    const params: any = {
       ClientId: this.clientId,
       Username: email,
       ConfirmationCode: confirmationCode,
     };
+
+    if (this.secretHash) {
+      params.SecretHash = this.secretHash;
+    }
 
     const command = new ConfirmSignUpCommand(params);
 
@@ -120,10 +129,14 @@ export class CognitoService {
    * @param email
    */
   async resendConfirmationCode(email: string) {
-    const params = {
+    const params: any = {
       ClientId: this.clientId,
       Username: email,
     };
+
+    if (this.secretHash) {
+      params.SecretHash = this.secretHash;
+    }
 
     const command = new ResendConfirmationCodeCommand(params);
 
@@ -224,7 +237,7 @@ export class CognitoService {
    * @param email
    */
   async respondToMfaChallenge(mfaCode: string, session: string, email: string) {
-    const params = {
+    const params: any = {
       ChallengeName: 'SOFTWARE_TOKEN_MFA', // Indicates MFA challenge
       ClientId: this.clientId,
       Session: session, // Session token from the initial login attempt
@@ -234,7 +247,10 @@ export class CognitoService {
       },
     };
 
-    // @ts-ignore
+    if (this.secretHash) {
+      params.ChallengeResponses.SECRET_HASH = this.secretHash;
+    }
+
     const command = new RespondToAuthChallengeCommand(params);
 
     try {
@@ -279,10 +295,14 @@ export class CognitoService {
    * @param email
    */
   async forgotPassword(email: string) {
-    const params = {
+    const params: any = {
       ClientId: this.clientId,
       Username: email,
     };
+
+    if (this.secretHash) {
+      params.SecretHash = this.secretHash;
+    }
 
     const command = new ForgotPasswordCommand(params);
 
@@ -305,12 +325,16 @@ export class CognitoService {
     confirmationCode: string,
     newPassword: string,
   ) {
-    const params = {
+    const params: any = {
       ClientId: this.clientId,
       Username: email,
       ConfirmationCode: confirmationCode,
       Password: newPassword,
     };
+
+    if (this.secretHash) {
+      params.SecretHash = this.secretHash;
+    }
 
     const command = new ConfirmForgotPasswordCommand(params);
 
@@ -327,7 +351,7 @@ export class CognitoService {
    * @param refreshToken
    */
   async refreshToken(refreshToken: string) {
-    const params = {
+    const params: any = {
       AuthFlow: 'REFRESH_TOKEN_AUTH',
       ClientId: this.clientId,
       AuthParameters: {
@@ -335,7 +359,10 @@ export class CognitoService {
       },
     };
 
-    // @ts-ignore
+    if (this.secretHash) {
+      params.AuthParameters.SECRET_HASH = this.secretHash;
+    }
+
     const command = new InitiateAuthCommand(params);
 
     try {
