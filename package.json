@@ -1,6 +1,6 @@
 {
-  "name": "cognito-react",
-  "version": "0.1.0",
+  "name": "cognito-node",
+  "version": "0.3.0",
   "description": "",
   "main": "index.js",
   "scripts": {
