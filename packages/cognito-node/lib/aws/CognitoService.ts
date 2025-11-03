@@ -13,11 +13,12 @@ import {
   SetUserMFAPreferenceCommand,
   RespondToAuthChallengeCommand,
 } from '@aws-sdk/client-cognito-identity-provider';
+import { calculateSecretHash } from './CognitoUtils';
 
 export class CognitoService {
   private client: CognitoIdentityProviderClient;
   private clientId: string;
-  private secretHash: string;
+  private clientSecret: string;
   private cognitoUserPoolID: string;
   public cognitoMFALabel: string;
   public cognitoMFAIssuer: string;
@@ -25,17 +26,29 @@ export class CognitoService {
   constructor(
     region: string,
     clientId: string,
-    secretHash: string,
+    clientSecret: string,
     cognitoUserPoolID: string,
     cognitoMFALabel: string | 'NodeCognito',
     cognitoMFAIssuer: string | 'AWS',
   ) {
     this.client = new CognitoIdentityProviderClient({ region });
     this.clientId = clientId;
-    this.secretHash = secretHash;
+    this.clientSecret = clientSecret;
     this.cognitoUserPoolID = cognitoUserPoolID;
     this.cognitoMFALabel = cognitoMFALabel;
     this.cognitoMFAIssuer = cognitoMFAIssuer;
+  }
+
+  /**
+   * Calculate secret hash for a specific username
+   * @param username - The username (email) to calculate secret hash for
+   * @returns The secret hash or empty string if clientSecret is not set
+   */
+  private getSecretHash(username: string): string {
+    if (!this.clientSecret) {
+      return '';
+    }
+    return calculateSecretHash(username, this.clientId, this.clientSecret);
   }
 
   /**
@@ -55,8 +68,9 @@ export class CognitoService {
         },
       ],
     };
-    if (this.secretHash) {
-      params.SecretHash = this.secretHash;
+    const secretHash = this.getSecretHash(email);
+    if (secretHash) {
+      params.SecretHash = secretHash;
     }
 
     const command = new SignUpCommand(params);
@@ -84,8 +98,9 @@ export class CognitoService {
       },
     }; 
 
-    if (this.secretHash) {
-      params.AuthParameters.SECRET_HASH = this.secretHash;
+    const secretHash = this.getSecretHash(email);
+    if (secretHash) {
+      params.AuthParameters.SECRET_HASH = secretHash;
     }
 
     const command = new InitiateAuthCommand(params);
@@ -110,8 +125,9 @@ export class CognitoService {
       ConfirmationCode: confirmationCode,
     };
 
-    if (this.secretHash) {
-      params.SecretHash = this.secretHash;
+    const secretHash = this.getSecretHash(email);
+    if (secretHash) {
+      params.SecretHash = secretHash;
     }
 
     const command = new ConfirmSignUpCommand(params);
@@ -134,8 +150,9 @@ export class CognitoService {
       Username: email,
     };
 
-    if (this.secretHash) {
-      params.SecretHash = this.secretHash;
+    const secretHash = this.getSecretHash(email);
+    if (secretHash) {
+      params.SecretHash = secretHash;
     }
 
     const command = new ResendConfirmationCodeCommand(params);
@@ -247,8 +264,9 @@ export class CognitoService {
       },
     };
 
-    if (this.secretHash) {
-      params.ChallengeResponses.SECRET_HASH = this.secretHash;
+    const secretHash = this.getSecretHash(email);
+    if (secretHash) {
+      params.ChallengeResponses.SECRET_HASH = secretHash;
     }
 
     const command = new RespondToAuthChallengeCommand(params);
@@ -300,8 +318,9 @@ export class CognitoService {
       Username: email,
     };
 
-    if (this.secretHash) {
-      params.SecretHash = this.secretHash;
+    const secretHash = this.getSecretHash(email);
+    if (secretHash) {
+      params.SecretHash = secretHash;
     }
 
     const command = new ForgotPasswordCommand(params);
@@ -332,8 +351,9 @@ export class CognitoService {
       Password: newPassword,
     };
 
-    if (this.secretHash) {
-      params.SecretHash = this.secretHash;
+    const secretHash = this.getSecretHash(email);
+    if (secretHash) {
+      params.SecretHash = secretHash;
     }
 
     const command = new ConfirmForgotPasswordCommand(params);
@@ -349,8 +369,9 @@ export class CognitoService {
   /**
    * Use refresh token to get a new access token
    * @param refreshToken
+   * @param username - Optional username/email for secret hash calculation
    */
-  async refreshToken(refreshToken: string) {
+  async refreshToken(refreshToken: string, username?: string) {
     const params: any = {
       AuthFlow: 'REFRESH_TOKEN_AUTH',
       ClientId: this.clientId,
@@ -359,8 +380,11 @@ export class CognitoService {
       },
     };
 
-    if (this.secretHash) {
-      params.AuthParameters.SECRET_HASH = this.secretHash;
+    if (username) {
+      const secretHash = this.getSecretHash(username);
+      if (secretHash) {
+        params.AuthParameters.SECRET_HASH = secretHash;
+      }
     }
 
     const command = new InitiateAuthCommand(params);

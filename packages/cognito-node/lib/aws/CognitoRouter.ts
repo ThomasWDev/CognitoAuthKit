@@ -6,7 +6,7 @@ export interface CognitoParams {
   region: string;
   clientId: string;
   userPoolID: string;
-  secretHash?: string;
+  clientSecret?: string;
   mfaLabel?: string;
   mfaIssuer?: string;
   router?: Router; // Optional router parameter
@@ -24,7 +24,7 @@ export class CognitoRouter {
     region,
     clientId,
     userPoolID,
-    secretHash,
+    clientSecret,
     mfaLabel,
     mfaIssuer,
     router,
@@ -33,8 +33,8 @@ export class CognitoRouter {
     this.cognitoService = new CognitoService(
       region,
       clientId,
+      clientSecret || '',
       userPoolID,
-      secretHash || '',
       mfaLabel || 'NodeCognito',
       mfaIssuer || 'AWS',
     );

@@ -332,10 +332,10 @@ export class CognitoController {
    * @param res
    */
   async refreshToken(req: Request, res: Response): Promise<void> {
-    const { refreshToken } = req.body;
+    const { refreshToken, username } = req.body;
 
     try {
-      const result = await this.cognitoService.refreshToken(refreshToken);
+      const result = await this.cognitoService.refreshToken(refreshToken, username);
       res.status(200).send({
         message: 'Token refreshed successfully',
         accessToken: result?.AccessToken,
